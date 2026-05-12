@@ -1,10 +1,12 @@
 <template>
-    <el-aside width="180px">
+    <el-aside :width="width">
         <el-menu
             background-color="#545c64"
             text-color="#fff"
+            :collapse="isCollapse"
         >
-        <h3>通用后台管理系统</h3>
+        <h3 v-show="!isCollapse">通用后台管理系统</h3>
+        <h3 v-show="isCollapse">后台</h3>
         <el-menu-item :index="item.path" v-for="item in noChildren" :key="item.path">
           <component :is="item.icon" class = "icons"></component>
           <span>{{item.label}}</span>
@@ -29,7 +31,18 @@
 </template>
 
 <script setup> 
-    import {ref, computed} from "vue";
+import { isCollapsible } from "element-plus/es/components/splitter/src/hooks/usePanel.mjs";
+import {ref, computed} from "vue";
+import { useAllDataStore } from "@/stores";
+import { storeToRefs } from "pinia";
+    // 菜单折叠功能
+    const allDataStore = useAllDataStore();
+    const isCollapse = computed(() => allDataStore.state.isCollapse);
+    const width = computed(() => allDataStore.state.isCollapse ? '64px' : '180px');
+    //菜单折叠组合式版本
+    // const {isCollapse} = storeToRefs(allDataStore);
+    // const width = computed(() => isCollapse.value ? '64px' : '180px');
+    // 渲染菜单列表
     const list =ref([
       	{
           path: '/home',

@@ -1,8 +1,8 @@
 <template>
-    <!-- 面包屑导航和用户头像练习 -->
+    <!-- 面包屑导航和用户头像练手 -->
     <div class = "header">
         <div class="l-content">
-            <el-button size="small">
+            <el-button size="small" @click="handleCollapse">
                 <component is="menu" class="icons"></component>
             </el-button>
 
@@ -28,9 +28,18 @@
 
 <script setup> 
     import {ref, computed} from "vue";
+    import { useAllDataStore } from "@/stores";
+    import { storeToRefs } from "pinia";
+
     const getImageUrl = (user) => {
         return new URL(`../assets/images/${user}.png`,import.meta.url).href
     }
+    // 菜单折叠功能
+    const allDataStore = useAllDataStore();
+    const handleCollapse = () => {
+        allDataStore.state.isCollapse = !allDataStore.state.isCollapse;
+    }
+
 
 </script>
 
