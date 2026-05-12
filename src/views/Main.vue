@@ -1,13 +1,30 @@
 <template>
-    <div>
-        <h3>这是一个作为开始的测试标题</h3>
+    <div class="common-layout">
+        <el-container class="lay-container">
+            <common-aside/>
+            <el-container>
+                <el-header>
+                    <common-header/>
+                </el-header>
+                <el-main class="right-main">
+                    HI, Title
+                </el-main>
+            </el-container>
+        </el-container>
+
     </div>
 </template>
 
 <script setup>
-
+    import CommonAside from "@/components/CommonAside.vue";
+    import CommonHeader from "@/components/CommonHeader.vue";
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+    .common-layout, .lay-container{
+        height: 100%;
+    }
+    .el-header{
+        background-color: #333;
+    }
 </style>
