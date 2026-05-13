@@ -10,8 +10,8 @@
                     </div>
                 </div>
                 <div class="login-info">
-                    <p>上次登录时间:<span>2024-06-30</span></p>
-                    <p>上次登录地点:<span>北京</span></p>
+                    <p>上次登录时间:<span>2026-05-04</span></p>
+                    <p>上次登录地点:<span>192.168.1.1</span></p>
                 </div>
                 </el-card>
 
@@ -22,31 +22,60 @@
                         </el-table-column>
                     </el-table>
                 </el-card>
-            </el-col>
+        </el-col>
+        <el-col :span="16" style="margin-top:20px">
+            <div class="num">
+                <el-card
+                    :body-style="{ display: 'flex', padding: '0' }"
+                    v-for="(item,index) in countData"
+                    :key="item.name"
+                >
+                <component :is="item.icon" class="icons" :style="{background:item.color}"></component>
+                <div class="detail">
+                    <p class="num">{{ item.value }}</p>
+                    <p class="txt">{{ item.name }}</p>
+                </div>
+                </el-card>               
+            </div>
+            <el-card class="top-echart">
+               <div ref="echart" style="height:280px"></div>
+            </el-card>       
+
+            <div class="graph">
+               <el-card>
+                  <div ref="userEchart" style="height:240px"></div>
+               </el-card>
+               <el-card>
+                  <div ref="videoEchart" style="height:240px"></div>
+               </el-card>
+            </div>
+        </el-col>
     </el-row>
 </template>
 
 <script setup>
 import { getImageUrl } from '@/utils/image.js'
-// import axios from 'axios';
-import { ref,getCurrentInstance,onMounted } from 'vue'; 
-
+import { ref,getCurrentInstance,onMounted,reactive } from 'vue'; 
+import * as echarts from "echarts";
 const { proxy } = getCurrentInstance();
-// 样式开发临时数据
+
 const tableData = ref([
-    {
-      name: "钱包一",
-      todayBuy: 100,
-      monthBuy: 200,
-      totalBuy: 300,
-    },
-    {
-      name: "钱包二",
-      todayBuy: 100,
-      monthBuy: 200,
-      totalBuy: 300,
-    }
+    // 样式开发临时数据
+    // {
+    //   name: "钱包一",
+    //   todayBuy: 100,
+    //   monthBuy: 200,
+    //   totalBuy: 300,
+    // },
+    // {
+    //   name: "钱包二",
+    //   todayBuy: 100,
+    //   monthBuy: 200,
+    //   totalBuy: 300,
+    // }
 ])
+const countData = ref([])
+const chartData = ref([])
 const tableLabel = ref({
     name: "课程",
     todayBuy: "今日购买",
@@ -55,12 +84,113 @@ const tableLabel = ref({
 })
 // 从proxy上获取全局api对象，并调用接口获取后台数据
 const getTableData = async () => {
-    const data = await proxy.$api.getTableData();
-    // console.log('接口返回数据:', data);
-    tableData.value = data.tableData
+   const data = await proxy.$api.getTableData();
+   // console.log('接口返回数据:', data);
+   tableData.value = data.tableData
+}
+const getCountData = async () => {
+   const data = await proxy.$api.getCountData();
+   countData.value = data
+}
+const getChartData = async () => {
+   const {orderData,userData,videoData} = await proxy.$api.getChartData();
+   // 对第一个图标进行x轴 和 series 赋值
+   xOptions.xAxis.data = orderData.date;
+   xOptions.series = Object.keys(orderData.data[0]).map(val=>({
+      name:val,
+      data:orderData.data.map(item => item[val]),
+      type:'line'
+   }))
+
+   const oneEchart = echarts.init(proxy.$refs['echart'])
+   oneEchart.setOption(xOptions)
+   // 表格二渲染
+   xOptions.xAxis.data = userData.map(item=>item.date)
+   xOptions.series = [
+      {
+         name:'新增用户',
+         data:userData.map(item=>item.new),
+         type:'bar'
+      },
+      {
+         name:'活跃用户',
+         data:userData.map(item=>item.active),
+         type:'bar'
+      },
+   ]
+   const twoEchart = echarts.init(proxy.$refs['userEchart'])
+   twoEchart.setOption(xOptions)
+   // 对饼状图进行渲染
+   pieOptions.series = [
+   {
+      data: videoData,
+      type:'pie'
+   }
+   ]
+   const threeEchart = echarts.init(proxy.$refs['videoEchart'])
+   threeEchart.setOption(pieOptions)
 }
 onMounted(() => {
-    getTableData();
+   getTableData();
+   getCountData();
+   getChartData();
+})
+
+//折线图和柱状图 两个图表共用的公共配置
+const xOptions = reactive({
+      // 图例文字颜色
+      textStyle: {
+        color: "#333",
+      },
+      legend: {},
+      grid: {
+        left: "20%",
+      },
+      // 提示框
+      tooltip: {
+        trigger: "axis",
+      },
+      xAxis: {
+        type: "category", // 类目轴
+        data: [],
+        axisLine: {
+          lineStyle: {
+            color: "#17b3a3",
+          },
+        },
+        axisLabel: {
+          interval: 0,
+          color: "#333",
+        },
+      },
+      yAxis: [
+        {
+          type: "value",
+          axisLine: {
+            lineStyle: {
+              color: "#17b3a3",
+            },
+          },
+        },
+      ],
+      color: ["#2ec7c9", "#b6a2de", "#5ab1ef", "#ffb980", "#d87a80", "#8d98b3"],
+      series: [],
+})
+const pieOptions = reactive({
+  tooltip: {
+    trigger: "item",
+  },
+  legend: {},
+  color: [
+    "#0f78f4",
+    "#dd536b",
+    "#9462e5",
+    "#a6a6a6",
+    "#e1bb22",
+    "#39c362",
+    "#3ed1cf",
+  ],
+  series: []
 })
 </script>
 
@@ -107,4 +237,45 @@ overflow:hidden;
 .user-table{
  margin-top: 20px;
 }
+.num{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      .el-card{
+         width:32%;
+         margin-bottom:20px;
+      }
+      .icons{
+         width:80px;
+         height:80px;
+         font-size:30px;
+         text-align:center;
+         line-height:80px;
+         color:#fff;
+      }
+      .detail{
+         margin-left:15px;
+         display:flex;
+         flex-direction:column;
+         justify-content:center;
+         .num{
+            font-size:30px;
+            margin-bottom:10px
+         }
+         .txt{
+            font-size:15px;
+            text-align:center;
+            color:#999;
+         }
+      }
+   }
+      .graph{
+      margin-top:20px;
+      display:flex;
+      justify-content:space-between;
+      .el-card{
+         width:48%;
+         height:260px;
+      }
+   }
 </style>

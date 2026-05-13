@@ -13,4 +13,16 @@ export default {
             mock: false, // 覆盖开关mock
         });
     },
+    getCountData() {
+        return request({
+            url: '/home/getCountData/',
+            method: 'get',
+        });
+    },
+    getChartData() {
+        return request({
+        url: "/home/getChartData",
+        method: "get",
+    });
+  },
 };
