@@ -77,11 +77,12 @@ const tableData = ref([
 const countData = ref([])
 const chartData = ref([])
 const tableLabel = ref({
-    name: "课程",
+    name: "物品",
     todayBuy: "今日购买",
     monthBuy: "本月购买",
     totalBuy: "总购买",
 })
+const observer = ref(null)
 // 从proxy上获取全局api对象，并调用接口获取后台数据
 const getTableData = async () => {
    const data = await proxy.$api.getTableData();
@@ -129,7 +130,19 @@ const getChartData = async () => {
    ]
    const threeEchart = echarts.init(proxy.$refs['videoEchart'])
    threeEchart.setOption(pieOptions)
+    //ResizeObserver 如果监视的容器大小变化，如果改变会执行传递的回调
+    observer.value = new ResizeObserver(entries => {
+        oneEchart.resize()
+        twoEchart.resize()
+        threeEchart.resize()
+    })
+    //如果这个容器存在
+    if (proxy.$refs["echart"]) {
+        //则调用监视器的observe方法，监视这个容器的大小
+      observer.value.observe(proxy.$refs["echart"]);
+    }
 }
+
 onMounted(() => {
    getTableData();
    getCountData();
