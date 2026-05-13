@@ -3,11 +3,11 @@
         <el-container class="lay-container">
             <common-aside/>
             <el-container>
-                <el-header>
+                <el-header class="el-header">
                     <common-header/>
                 </el-header>
                 <el-main class="right-main">
-                    HI, Title
+                    <router-view/>
                 </el-main>
             </el-container>
         </el-container>

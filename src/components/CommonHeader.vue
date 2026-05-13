@@ -30,10 +30,8 @@
     import {ref, computed} from "vue";
     import { useAllDataStore } from "@/stores";
     import { storeToRefs } from "pinia";
+    import { getImageUrl } from '@/utils/image.js'
 
-    const getImageUrl = (user) => {
-        return new URL(`../assets/images/${user}.png`,import.meta.url).href
-    }
     // 菜单折叠功能
     const allDataStore = useAllDataStore();
     const handleCollapse = () => {
