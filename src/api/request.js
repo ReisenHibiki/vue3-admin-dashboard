@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ElMessage } from "element-plus";
+import config from "@/config";
 
 const service = axios.create();
 const NETWORK_ERROR = '网络异常，请稍后再试！';
@@ -27,7 +28,25 @@ service.interceptors.response.use(
 
 function request(options) {
     options.method = options.method || 'get';
+    // 统一使用data，如果是get请求，参数放在params里
+    if (options.method.toLowerCase() === 'get') {
+        options.params = options.data;
+    }
+    // mock开关处理
+    let isMock = config.mock;
+    if (typeof options.mock !== 'undefined') {
+        isMock = options.mock;
+    }
+    // 针对环境处理
+    if (config.env === 'prod') {
+        service.defaults.baseURL = config.baseApi;
+    }else {
+        service.defaults.baseURL = isMock ? config.mockApi : config.baseApi;
+    }
+    // console.log(service.defaults.baseURL);  
+    // console.log(options);
     return service(options);
+
 }
 
 export default request;

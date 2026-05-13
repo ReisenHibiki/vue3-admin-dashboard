@@ -1,14 +1,16 @@
 /**
  * 我在此处对整个项目api的统一管理
  */
+import { mock } from "mockjs";
 import request from "./request";
 
 export default {
     // 获取左侧表格数据
     getTableData() {
         return request({
-            url: '/api/home/getTableData/',
+            url: '/home/getTableData/',
             method: 'get',
+            mock: false, // 覆盖开关mock
         });
     },
 };
