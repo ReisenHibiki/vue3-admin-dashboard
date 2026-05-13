@@ -7,9 +7,13 @@ import 'element-plus/dist/index.css'
 //icon图标全局引入
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { createPinia } from 'pinia';
+import '@/api/mock.js';
+import api from "@/api/api";
 
 const pinia = createPinia();
 const app = createApp(App);
+
+app.config.globalProperties.$api = api; // 将api挂载到全局属性上，方便在组件中使用
 app.use(router);
 app.use(ElementPlus)
 app.use(pinia);

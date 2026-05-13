@@ -28,8 +28,10 @@
 
 <script setup>
 import { getImageUrl } from '@/utils/image.js'
-import { ref } from 'vue'; 
+// import axios from 'axios';
+import { ref,getCurrentInstance,onMounted } from 'vue'; 
 
+const { proxy } = getCurrentInstance();
 // 样式开发临时数据
 const tableData = ref([
     {
@@ -45,12 +47,20 @@ const tableData = ref([
       totalBuy: 300,
     }
 ])
-
 const tableLabel = ref({
     name: "课程",
     todayBuy: "今日购买",
     monthBuy: "本月购买",
     totalBuy: "总购买",
+})
+// 从proxy上获取全局api对象，并调用接口获取后台数据
+const getTableData = async () => {
+    const data = await proxy.$api.getTableData();
+    // console.log('接口返回数据:', data);
+    tableData.value = data.tableData
+}
+onMounted(() => {
+    getTableData();
 })
 </script>
 
