@@ -24,5 +24,12 @@ export default {
         url: "/home/getChartData",
         method: "get",
     });
-  },
+    },
+        getUserData(data) {
+        return request({
+        url: "/user/getUserData",
+        method: "get",
+        data,//拦截器统一处理转换了所以可以用data
+    });
+    },
 };
