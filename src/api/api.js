@@ -25,11 +25,19 @@ export default {
         method: "get",
     });
     },
-        getUserData(data) {
+    getUserData(data) {
         return request({
         url: "/user/getUserData",
         method: "get",
-        data,//拦截器统一处理转换了所以可以用data
+        data,//拦截器统一处理转换了所以可以统一使用data传参
     });
     },
+    deleteUser(params) {
+        return request({
+        url: '/user/deleteUser',
+        method: 'get',
+        data: params
+        })
+    },
+
 };

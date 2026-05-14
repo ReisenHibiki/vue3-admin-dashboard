@@ -44,7 +44,7 @@
 </template>
 <script setup>
 import {reactive, ref, getCurrentInstance, onMounted} from "vue";
-
+import { ElMessage, ElMessageBox } from 'element-plus';
 const formInline = reactive({
   keyword: "",
 })
@@ -64,6 +64,25 @@ const handleSerch = () => {
 const handleChange = (page) => {
     config.page = page;
     getUserData();
+}
+const handleDelete = (val) => {
+    ElMessageBox.confirm('确定删除吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(async () => {
+        await proxy.$api.deleteUser({id: val.id});
+        ElMessage({
+          type: 'success',
+          message: '删除成功!',
+        });
+        getUserData();
+      }).catch(() => {
+        ElMessage({
+          type: 'info',
+          message: '已取消删除/删除失败',
+        });
+      });
 }
 const list = ref([])
 const tableLabel = reactive([
