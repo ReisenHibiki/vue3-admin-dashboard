@@ -46,5 +46,11 @@ export default {
         data: params
         })
     },
-
+    editUser(params) {
+        return request({
+        url: '/user/editUser',
+        method: 'post',
+        data: params
+        })
+    },
 };
