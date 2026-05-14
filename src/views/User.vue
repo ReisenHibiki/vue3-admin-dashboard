@@ -189,7 +189,7 @@ const onSubmit = () => {
 }
 // 新增和编辑共用一个窗口，用action区分
 const action = ref("add");
-const dialogVisible = ref(true);
+const dialogVisible = ref(false);
 const formUser = reactive({})
 //表单校验规则
 const rules = reactive({
