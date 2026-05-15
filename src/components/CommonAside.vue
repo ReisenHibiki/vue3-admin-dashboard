@@ -109,7 +109,7 @@ import { useRouter, useRoute } from "vue-router";
 const router = useRouter();
 const route = useRoute();
 const handleMenu = (item) => {
-    router.push(item.path);
+    router.push(item.name);
     allDataStore.selectMenu(item);
 }
 </script>
