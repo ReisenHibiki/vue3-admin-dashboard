@@ -5,10 +5,15 @@
             text-color="#fff"
             :collapse="isCollapse"
             :collapse-transition="false"
+            :default-active="route.path"
         >
         <h3 v-show="!isCollapse">通用后台管理系统</h3>
         <h3 v-show="isCollapse">后台</h3>
-        <el-menu-item :index="item.path" v-for="item in noChildren" :key="item.path">
+        <el-menu-item 
+        :index="item.path" 
+        v-for="item in noChildren" 
+        :key="item.path"
+        @click="handleMenu(item)">
           <component :is="item.icon" class = "icons"></component>
           <span>{{item.label}}</span>
         </el-menu-item>      
@@ -20,7 +25,11 @@
             <span>{{item.label}}</span>
           </template>
           <el-menu-item-group title="Group One">
-            <el-menu-item :index="subItem.path" v-for="(subItem,subIndex) in item.children" :key="subItem.path">
+            <el-menu-item 
+            :index="subItem.path" 
+            v-for="(subItem,subIndex) in item.children" 
+            :key="subItem.path"
+            @click="handleMenu(subItem)">
               <component :is="subItem.icon" class = "icons"></component>
               <span>{{subItem.label}}</span>
             </el-menu-item>
@@ -36,6 +45,7 @@ import { isCollapsible } from "element-plus/es/components/splitter/src/hooks/use
 import {ref, computed} from "vue";
 import { useAllDataStore } from "@/stores";
 import { storeToRefs } from "pinia";
+import { useRouter, useRoute } from "vue-router";
     // 菜单折叠功能
     const allDataStore = useAllDataStore();
     const isCollapse = computed(() => allDataStore.state.isCollapse);
@@ -89,11 +99,18 @@ import { storeToRefs } from "pinia";
         }
 ])
     //分类菜单选项用于v-for遍历
-    const noChildren = computed(() => list.value.filter(item => !item.children))
+    const noChildren = computed(() => list.value .filter(item => !item.children))
     const hasChildren =computed(() => list.value.filter(item => item.children))
 
     const clickMenu=(item)=>{
         router.push(item.path)
+}
+// 跳转功能
+const router = useRouter();
+const route = useRoute();
+const handleMenu = (item) => {
+    router.push(item.path);
+    allDataStore.selectMenu(item);
 }
 </script>
 
