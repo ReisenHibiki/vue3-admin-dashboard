@@ -6,7 +6,7 @@
                     <img :src="getImageUrl('user')" class="user"/>
                     <div class="user-info">
                         <p class="user-info-admin">Admin</p>
-                        <p class="user-info-p">超级管理员</p>
+                        <p class="user-info-p">管理员</p>
                     </div>
                 </div>
                 <div class="login-info">
