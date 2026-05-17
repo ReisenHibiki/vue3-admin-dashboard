@@ -53,4 +53,11 @@ export default {
         data: params
         })
     },
+    getMenu(params) {
+    return request({
+      url: '/permission/getMenu',
+      method: 'post',
+      data: params
+    })
+    }
 };

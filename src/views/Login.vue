@@ -6,7 +6,7 @@
                     <el-input placeholder="请输入用户名" v-model="loginForm.username"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-input placeholder="请输入密码" v-model="loginForm.password" type="password"></el-input>
+                    <el-input placeholder="请输入密码" v-model="loginForm.password" type="password" @keyup.enter="handleLogin"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <div class="btn-box">
@@ -18,12 +18,26 @@
 </template>
 
 <script setup>
-import {reactive} from "vue";
+import {reactive,getCurrentInstance} from "vue";
+import { useAllDataStore } from "@/stores";
+import { useRouter } from "vue-router";
 
 const loginForm = reactive({
     username: '',
     password: ''
 })
+const router = useRouter();
+const allDataStore = useAllDataStore();
+const {proxy} = getCurrentInstance();
+const handleLogin = async () => {
+    const res = await proxy.$api.getMenu(loginForm)
+    // 获得的菜单列表存储到pinia中
+    allDataStore.updateMenuList(res.menuList);
+    allDataStore.token = res.token;
+    // 根据菜单列表动态添加路由
+    allDataStore.addMenu(router);
+    router.push("/home");
+}
 
 </script>
 
