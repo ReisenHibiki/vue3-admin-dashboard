@@ -1,4 +1,3 @@
-import { de } from "element-plus/es/locales.mjs";
 import { createRouter, createWebHashHistory } from "vue-router";
 
 const routes = [
@@ -37,6 +36,11 @@ const routes = [
 
             ]
     },
+    {
+        path: '/login',
+        name: 'login',
+        component: () => import('@/views/Login.vue')
+    }
 ]
 
 const router = createRouter({
