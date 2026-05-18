@@ -18,7 +18,7 @@
                 <template #dropdown>
                 <el-dropdown-menu>
                     <el-dropdown-item>个人中心</el-dropdown-item>
-                    <el-dropdown-item>退出登录</el-dropdown-item>
+                    <el-dropdown-item @click="handleLogout">退出登录</el-dropdown-item>
                 </el-dropdown-menu>
                 </template>
             </el-dropdown>
@@ -31,6 +31,7 @@
     import { useAllDataStore } from "@/stores";
     import { storeToRefs } from "pinia";
     import { getImageUrl } from '@/utils/image.js'
+    import { useRouter } from "vue-router";
 
     // 菜单折叠功能
     const allDataStore = useAllDataStore();
@@ -38,6 +39,11 @@
         allDataStore.state.isCollapse = !allDataStore.state.isCollapse;
     }
 
+    const router = useRouter();
+    const handleLogout = () => {
+        allDataStore.clean();
+        router.push("/login");
+    }
 
 </script>
 

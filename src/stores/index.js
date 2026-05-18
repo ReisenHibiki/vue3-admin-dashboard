@@ -95,9 +95,20 @@ export const useAllDataStore = defineStore("allData", () => {
         })
 
         routeArr.forEach(item => {
-            // push保存了“删除路由的方法”
+            // push保存了“删除路由的方法”在routerList,方便下面的clean函数调用
             state.value.routerList.push(router.addRoute("main",item));
         })
+    }
+    function clean(){
+        state.value.routerList.forEach(item => {
+            // 每个删除路由方法都执行一遍
+            if(item){
+                item();
+            }
+            //重置state的数据
+            state.value=initState();
+            localStorage.removeItem('store')          
+        });
     }
 
     return {   
@@ -106,7 +117,8 @@ export const useAllDataStore = defineStore("allData", () => {
         updateMenu,
         updateMenuList,
         addMenu,
-        clearTags
+        clearTags,
+        clean
     };
 
 })
