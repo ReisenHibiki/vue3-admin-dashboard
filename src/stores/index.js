@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 
 function initState(){
     return {
@@ -20,6 +20,12 @@ function initState(){
 }
 export const useAllDataStore = defineStore("allData", () => {
     const state = ref(initState());
+
+    watch(state, (newObj) => {
+        if (!newObj.token) return;
+        localStorage.setItem("store", JSON.stringify(newObj));
+    }, { deep: true }
+    );
 
     // commontab组件的标签页功能
     function selectMenu(item){
@@ -50,7 +56,17 @@ export const useAllDataStore = defineStore("allData", () => {
         state.value.menuList = val;
     }
     // 动态路由
-    function addMenu(router){
+    function addMenu(router, type){
+        // 如果为刷新
+        if(type === "refresh"){
+            if(localStorage.getItem("store")){
+                state.value = JSON.parse(localStorage.getItem("store"));
+                state.value.routerList = [];
+            } else {
+                return;
+            }
+        }
+            
         const menu = state.value.menuList;
         const modules = import.meta.glob("../views/**/**.vue");
         const routeArr = [];
