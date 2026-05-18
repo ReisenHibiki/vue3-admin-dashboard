@@ -34,6 +34,17 @@ export const useAllDataStore = defineStore("allData", () => {
         let index = state.value.tags.findIndex(tag => tag.name === item.name);
         state.value.tags.splice(index,1);
     }
+    // 登录不同账号清理标签页数据
+    function clearTags(){
+        state.value.tags = [
+            {
+                path: "/home",
+                label: "首页",
+                name: "home",
+                icon: "home"
+            }
+        ];
+    }
     // 登录页根据不同用户更新不同的菜单列表
     function updateMenuList(val){
         state.value.menuList = val;
@@ -56,6 +67,17 @@ export const useAllDataStore = defineStore("allData", () => {
                 routeArr.push(item);
             }
         })
+        // 修复多账号登录时路由的问题
+        state.value.routerList = [];
+        let routes = router.getRoutes();
+        routes.forEach(item => {
+            if(item.name == "main" || item.name == "login"){
+                return;
+            }else{
+                router.removeRoute(item.name);
+            }
+        })
+
         routeArr.forEach(item => {
             // push保存了“删除路由的方法”
             state.value.routerList.push(router.addRoute("main",item));
@@ -67,7 +89,8 @@ export const useAllDataStore = defineStore("allData", () => {
         selectMenu,
         updateMenu,
         updateMenuList,
-        addMenu
+        addMenu,
+        clearTags
     };
 
 })

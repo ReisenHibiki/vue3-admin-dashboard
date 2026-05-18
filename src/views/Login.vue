@@ -36,6 +36,8 @@ const handleLogin = async () => {
     allDataStore.token = res.token;
     // 根据菜单列表动态添加路由
     allDataStore.addMenu(router);
+    // 重置tag数据
+    allDataStore.clearTags();
     router.push("/home");
 }
 
