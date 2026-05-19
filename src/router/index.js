@@ -41,9 +41,10 @@ const routes = [
         name: 'login',
         component: () => import('@/views/Login.vue')
     },
+    // 笔记：404兜底路由必须放在最后，否则会导致所有路由都被重定向到404
     {
-        path: '/404',
-        name: '404',
+        path: "/:pathMatch(.*)*",
+        name:"404",
         component: () => import('@/views/404.vue')
     }
 ]
