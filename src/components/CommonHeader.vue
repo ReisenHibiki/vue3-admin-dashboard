@@ -8,6 +8,15 @@
 
             <el-breadcrumb separator="/" class="bread">
                 <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+
+                <el-breadcrumb-item
+                v-for="item in breadcrumbList"
+                :key="item.path"
+                :to="item.path"
+                class="bread"
+                >
+                {{ item.meta.label }}
+                </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="r-content">
@@ -31,7 +40,7 @@
     import { useAllDataStore } from "@/stores";
     import { storeToRefs } from "pinia";
     import { getImageUrl } from '@/utils/image.js'
-    import { useRouter } from "vue-router";
+    import { useRouter, useRoute } from "vue-router";
 
     // 菜单折叠功能
     const allDataStore = useAllDataStore();
@@ -45,6 +54,13 @@
         router.push("/login");
     }
 
+    // 自动生成面包屑
+    const route = useRoute();
+    const breadcrumbList = computed(() => {
+    return route.matched.filter(item => {
+        return item.meta?.label && item.meta.label !== "首页";
+    })
+    })
 </script>
 
 <style lang="less" scoped>

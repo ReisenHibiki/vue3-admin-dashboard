@@ -22,17 +22,17 @@ router.beforeEach((to, from) => {
     console.log("token:", allDataStore.state.token);  // 调试用
 
     if (to.path !== '/login' && !allDataStore.state.token) {
-        console.log("用户未登录，跳转到login界面");
+        // console.log("用户未登录，跳转到login界面");
         return { name: 'login' };
     }
 
     const routeExists = router.getRoutes().some(route => route.path === to.path);
     if (!routeExists) {
-        console.log("路由记录不存在，跳转到404");
+        // console.log("路由记录不存在，跳转到404");
         return { name: '404' };
     }
 
-    console.log("路由守卫被触发，允许跳转");
+    // console.log("路由守卫被触发，允许跳转");
     return true;
 });
 

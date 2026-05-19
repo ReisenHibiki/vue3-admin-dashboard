@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 import {ref, watch} from "vue";
+import router from "@/router";
+import { formatRoutes } from "@/utils/formatRoutes";
 
 function initState(){
     return {
@@ -94,11 +96,15 @@ export const useAllDataStore = defineStore("allData", () => {
             }
         })
 
-        routeArr.forEach(item => {
+        // 格式化路由数据，添加meta.label属性
+        const formattedRoutes = formatRoutes(routeArr);
+
+        formattedRoutes.forEach(item => {
             // push保存了“删除路由的方法”在routerList,方便下面的clean函数调用
             state.value.routerList.push(router.addRoute("main",item));
         })
     }
+    
     function clean(){
         state.value.routerList.forEach(item => {
             // 每个删除路由方法都执行一遍
