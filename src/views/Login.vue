@@ -33,7 +33,7 @@ const handleLogin = async () => {
     const res = await proxy.$api.getMenu(loginForm)
     // 获得的菜单列表存储到pinia中
     allDataStore.updateMenuList(res.menuList);
-    allDataStore.token = res.token;
+    allDataStore.state.token = res.token;
     // 根据菜单列表动态添加路由
     allDataStore.addMenu(router);
     // 重置tag数据
