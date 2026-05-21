@@ -26,7 +26,7 @@
                 </span>
                 <template #dropdown>
                 <el-dropdown-menu>
-                    <el-dropdown-item>个人中心</el-dropdown-item>
+                    <el-dropdown-item @click="handleHome">个人中心</el-dropdown-item>
                     <el-dropdown-item @click="handleLogout">退出登录</el-dropdown-item>
                 </el-dropdown-menu>
                 </template>
@@ -52,6 +52,10 @@
     const handleLogout = () => {
         allDataStore.clean();
         router.push("/login");
+    }
+
+    const handleHome = () => {
+        router.push("/home");
     }
 
     // 自动生成面包屑
