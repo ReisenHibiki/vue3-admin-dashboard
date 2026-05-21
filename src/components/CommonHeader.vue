@@ -22,7 +22,7 @@
         <div class="r-content">
             <el-dropdown>
                 <span class="el-dropdown-link">
-                    <img :src="getImageUrl('user')" class="user" alt="User"/>
+                    <img :src="getImageUrl(userImgName)" class="user" alt="User"/>
                 </span>
                 <template #dropdown>
                 <el-dropdown-menu>
@@ -65,6 +65,13 @@
         return item.meta?.label && item.meta.label !== "首页";
     })
     })
+        // 头像显示
+    let userImgName = '';
+    if (allDataStore.state.username === "admin") {
+    userImgName = 'user';
+    } else {
+    userImgName = 'user-default';
+    }
 </script>
 
 <style lang="less" scoped>
