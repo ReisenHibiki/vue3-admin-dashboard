@@ -13,7 +13,23 @@
                     <el-button width="100%" type="primary" @click="handleLogin">登录</el-button>
                     </div>
                 </el-form-item>
+
+            <!-- 双账号展示方便面试官查看我的Demo -->
+            <div class="demo-accounts">
+                <div class="item">
+                    <span class="title">管理员</span>
+                    <span class="text">账号：admin</span>
+                    <span class="text">密码：admin</span>
+                </div>
+                <div class="item">
+                    <span class="title">普通用户</span>
+                    <span class="text">账号：lele</span>
+                    <span class="text">密码：lele</span>
+                </div>
+            </div>
+
             </el-form>
+
         </div>
 </template>
 
@@ -74,6 +90,33 @@ const handleLogin = async () => {
     // width: 100%;
     // text-align: center;
     // }
+
+.demo-accounts {
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+
+        .item {
+            width: 48%;
+            text-align: center;
+            font-size: 12px;
+
+            .title {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 5px;
+                color: #333;
+            }
+
+            .text {
+                display: block;
+                color: #666;
+                line-height: 1.4;
+            }
+        }
+    }
 }
 
 </style>
