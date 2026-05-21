@@ -17,7 +17,8 @@ function initState(){
         CurrentMenu: null,
         menuList: [],
         token: "",
-        routerList:[]
+        routerList:[],
+        username: "",
     }
 }
 export const useAllDataStore = defineStore("allData", () => {

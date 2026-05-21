@@ -3,10 +3,10 @@
         <el-col :span="8" style="margin-top:20px">
                 <el-card shadow="hover">
                 <div class="user">
-                    <img :src="getImageUrl('user')" class="user"/>
+                    <img :src="getImageUrl(userImgName)" class="user"/>
                     <div class="user-info">
-                        <p class="user-info-admin">Admin</p>
-                        <p class="user-info-p">管理员</p>
+                        <p class="user-info-admin">{{ allDataStore.state.username }}</p>
+                        <p class="user-info-p" v-if="allDataStore.state.username === 'admin'">管理员</p>
                     </div>
                 </div>
                 <div class="login-info">
@@ -57,23 +57,11 @@
 import { getImageUrl } from '@/utils/image.js'
 import { ref,getCurrentInstance,onMounted,reactive } from 'vue'; 
 import * as echarts from "echarts";
+import { useAllDataStore } from "@/stores";
 const { proxy } = getCurrentInstance();
+const allDataStore = useAllDataStore();
 
-const tableData = ref([
-    // 样式开发临时数据
-    // {
-    //   name: "钱包一",
-    //   todayBuy: 100,
-    //   monthBuy: 200,
-    //   totalBuy: 300,
-    // },
-    // {
-    //   name: "钱包二",
-    //   todayBuy: 100,
-    //   monthBuy: 200,
-    //   totalBuy: 300,
-    // }
-])
+const tableData = ref([])
 const countData = ref([])
 const chartData = ref([])
 const tableLabel = ref({
@@ -83,6 +71,13 @@ const tableLabel = ref({
     totalBuy: "总购买",
 })
 const observer = ref(null)
+// 头像显示
+let userImgName = '';
+if (allDataStore.state.username === "admin") {
+   userImgName = 'user';
+} else {
+   userImgName = 'user-default';
+}
 // 从proxy上获取全局api对象，并调用接口获取后台数据
 const getTableData = async () => {
    const data = await proxy.$api.getTableData();

@@ -2,7 +2,7 @@
     <div class="user-header">
         <el-button type="primary" @click="handleAdd">+新增</el-button>
         <el-form :inline="true" :model="formInline">
-          <el-form-item label="请输入">
+          <el-form-item label="Search:">
             <el-input v-model="formInline.keyword" @keyup.enter="handleSerch" placeholder="请输入用户名" />
           </el-form-item>
           <el-form-item>

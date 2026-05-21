@@ -34,6 +34,7 @@ const handleLogin = async () => {
     // 获得的菜单列表存储到pinia中
     allDataStore.updateMenuList(res.menuList);
     allDataStore.state.token = res.token;
+    allDataStore.state.username = res.username;
     // 根据菜单列表动态添加路由
     allDataStore.addMenu(router);
     // 重置tag数据

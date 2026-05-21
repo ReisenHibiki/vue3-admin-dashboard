@@ -54,10 +54,11 @@ export default {
             }
           ],
           token: Mock.Random.guid(),
-          message: '获取成功'
+          message: '获取成功',
+          username,
         }
       }
-    } else if (username === 'xiaoxiao' && password === 'xiaoxiao') {
+    } else if (username === 'lele' && password === 'lele') {
       return {
         code: 200,
         data: {
@@ -78,7 +79,8 @@ export default {
             }
           ],
           token: Mock.Random.guid(),
-          message: '获取成功'
+          message: '获取成功',
+          username,
         }
       }
     } else {
