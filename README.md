@@ -1,5 +1,107 @@
-# Vue 3 + Vite
+# Vue3 后台管理系统（演示项目）
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 项目介绍
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+本项目是基于 **Vue3 \+ Vite \+ Pinia \+ element plus** 开发的轻量级后台管理演示系统，模拟企业级后台基础业务与权限场景。项目采用现代前端开发规范，使用组合式API开发，实现了核心的动态路由权限、角色权限区分、后台通用业务功能，后续可持续迭代拓展新功能。
+
+## 技术栈
+
+- **构建工具**：Vite（极速启动、高效热更新）
+
+- **核心框架**：Vue3（Composition API 组合式语法）
+
+- **状态管理**：Pinia（轻量化全局状态管理）
+
+- **UI组件库**：Element Plus
+
+- **路由管理**：Vue Router 4
+
+- **数据可视化**：ECharts
+
+- **模拟接口**：Mock\.js
+
+## 当前项目核心功能
+
+### 1\. 动态路由 \+ 角色权限控制（核心亮点）
+
+- 配置**管理员、普通用户**双角色权限展示
+
+- 登录后通过Mock接口动态获取菜单，自动动态添加路由
+
+- 不同角色登录展示差异化侧边栏菜单，实现页面级权限控制
+
+- 全局路由守卫拦截，未登录用户禁止访问后台页面
+
+### 2\. 基础后台业务功能
+
+- **登录鉴权**：账号密码校验、Token存储、登录状态保存
+
+- **个人首页**：展示用户信息、动态角色头像、登录记录信息
+
+- **数据可视化**：集成ECharts，实现折线图、柱状图、饼图数据展示，支持窗口自适应
+
+- **商品管理**：完成商品新增、编辑、删除、模糊搜索、分页展示全套CRUD功能
+
+- **异常处理**：全局404兜底路由，无效路径自动跳转404页面
+
+### 3\. 工程化基础封装
+
+- 统一封装图片资源工具函数，规范静态资源引入方式
+
+- Pinia统一管理全局状态、菜单数据，实现状态共享
+
+- 模块化分层开发，页面、状态、工具、接口结构清晰
+
+##  测试演示账号
+
+为方便项目演示，内置两套不同权限测试账号：
+
+- **管理员账号**：admin / admin（拥有全部菜单及操作权限）
+
+- **普通用户账号**：lele / lele（仅开放基础浏览权限）
+
+##  项目目录结构
+
+```plain
+src
+├── api             # 全局接口请求封装
+│   ├── mockData    # 模拟接口
+├── assets          # 静态资源（图片、样式）
+├── router          # 路由配置 + 全局路由守卫
+├── stores          # Pinia 全局状态管理仓库
+├── utils           # 通用工具函数封装
+├── components      # 组件
+├── views           # 业务页面
+│   ├── 404         # 全局404异常兜底页面
+│   ├── Home        # 首页布局、侧边权限菜单、数据可视化
+│   ├── Login       # 系统登录页面
+│   ├── Mall        # 商品管理页面（CRUD、搜索、分页）
+│   ├── Page1/Page2 # 附属演示页面
+│   └── User        # 用户管理页面
+├── App.vue         # 项目根组件
+└── main.js         # 项目入口文件
+```
+
+##  项目启动方式
+
+### 1\. 安装依赖
+
+```bash
+npm install
+```
+
+### 2\. 启动本地开发服务
+
+```bash
+npm run dev
+```
+
+##  后续迭代计划
+
+项目目前已完成基础核心功能，后续将持续迭代优化：
+
+- 渐进式引入 TypeScript，重构核心模块，提升项目类型安全性
+
+- 拓展更多业务功能、优化页面样式与交互体验
+
+- 完善接口封装与数据处理逻辑
