@@ -54,7 +54,7 @@
 </template>
 
 <script setup>
-import { getImageUrl } from '@/utils/image.js'
+import { getImageUrl } from '@/utils/image'
 import { ref,getCurrentInstance,onMounted,reactive } from 'vue'; 
 import * as echarts from "echarts";
 import { useAllDataStore } from "@/stores";

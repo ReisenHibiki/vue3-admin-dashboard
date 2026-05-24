@@ -39,7 +39,7 @@
     import {ref, computed} from "vue";
     import { useAllDataStore } from "@/stores";
     import { storeToRefs } from "pinia";
-    import { getImageUrl } from '@/utils/image.js'
+    import { getImageUrl } from '@/utils/image'
     import { useRouter, useRoute } from "vue-router";
 
     // 菜单折叠功能
