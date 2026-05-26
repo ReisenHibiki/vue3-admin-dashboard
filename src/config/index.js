@@ -10,7 +10,8 @@ const EnvConfig = {
     mockApi: 'https://mock.apifox.cn/m1/4068509-0-default/api',
   },
   prod: {
-    baseApi: '//future.com/api',
+    // 为了CI/CD部署后功能正常，使用dev的baseApi
+    baseApi: '/api',
     mockApi: 'https://mock.apifox.cn/m1/4068509-0-default/api',
   },
 };
