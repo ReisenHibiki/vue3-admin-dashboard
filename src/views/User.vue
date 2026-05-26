@@ -168,7 +168,7 @@ const onSubmit = () => {
             if (action.value == "add") {
                 res = await proxy.$api.addUser(formUser);
             }else if(action.value == "edit"){
-                // 之后写编辑接口
+                res = await proxy.$api.editUser(formUser);
             }
             //如果接口调用成功
             if(res){

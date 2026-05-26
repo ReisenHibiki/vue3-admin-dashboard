@@ -18,18 +18,18 @@ export default {
               url: 'Home'
             },
             {
-              path: '/mall',
-              name: 'mall',
-              label: '商品管理',
-              icon: 'video-play',
-              url: 'Mall'
-            },
-            {
               path: '/user',
               name: 'user',
               label: '用户管理',
               icon: 'user',
               url: 'User'
+            },            
+            {
+              path: '/mall',
+              name: 'mall',
+              label: '商品管理',
+              icon: 'video-play',
+              url: 'Mall'
             },
             {
               path: 'other',

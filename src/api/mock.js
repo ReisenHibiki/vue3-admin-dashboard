@@ -1,3 +1,4 @@
+// 统一注册mock接口,拦截前端发出的axios请求，直接返回模拟数据
 import Mock from 'mockjs'
 import homeApi from './mockData/homeData'
 import userApi from './mockData/userData'
