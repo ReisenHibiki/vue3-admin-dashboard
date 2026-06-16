@@ -1,0 +1,59 @@
+# 工作流名称，GitHub Actions页面展示
+name: Vue3 Vite CI/CD
+
+# 触发规则：仅推送main分支时执行，支持手动触发
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch: # 可在GitHub页面手动点按钮跑部署
+
+# 授权权限：必须配置，否则无法发布Pages
+permissions:
+  contents: read    # 读取仓库代码
+  pages: write      # 写入静态页面
+  id-token: write   # 身份校验
+
+# 并发控制：同一时间只跑一次部署，避免冲突
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+# 核心任务：构建+打包+部署
+jobs:
+  deploy-task:
+    # 运行环境：GitHub提供的Ubuntu虚拟机
+    runs-on: ubuntu-latest
+    # 部署目标环境标识
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy-step.outputs.page_url }}
+    steps:
+      # 拉取仓库全部代码到虚拟机
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 安装Node.js 20 LTS，缓存npm依赖提速
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      # 安装项目依赖（npm ci严格匹配package-lock，比install稳定）
+      - name: Install dependencies
+        run: npm ci
+
+      # 执行打包命令，生成dist文件夹
+      - name: Build project
+        run: npm run build
+
+      # 上传dist打包产物
+      - name: 上传静态资源dist
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      # 正式部署到GitHub Pages
+      - name: 发布线上站点
+        id: deploy-step
+        uses: actions/deploy-pages@v4
